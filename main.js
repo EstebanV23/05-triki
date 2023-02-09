@@ -1,4 +1,4 @@
-import Game from './models/Game'
+import Game from './public/models/Game'
 import { createLayout, renderWinner } from './rendersApp'
 import './style.css'
 

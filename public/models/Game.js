@@ -1,4 +1,4 @@
-import { renderPick } from '../rendersApp'
+import { renderPick } from '../../rendersApp'
 import Bot from './Bot'
 import Person from './Person'
 import Triki from './Triki'

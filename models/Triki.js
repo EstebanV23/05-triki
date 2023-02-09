@@ -38,8 +38,8 @@ class Triki {
       .flat(1)
       .map(lineCell => this.winnerInline(lineCell))
     if (results.every(result => result === 0) && this.endGame()) return 'Draw'
-    if (results.some(result => result === 1)) return 'You'
-    if (results.some(result => result === -1)) return 'Bot'
+    if (results.some(result => result === 1)) return 'You Won'
+    if (results.some(result => result === -1)) return 'Bot Won'
     return 'Continue'
   }
 
@@ -49,9 +49,11 @@ class Triki {
     for (const cell of lineCells) {
       if (cell === '') continue
 
-      valueCellSelect === cell
-        ? inLineValues++
-        : valueCellSelect = cell
+      if (valueCellSelect === cell) inLineValues++
+      else {
+        inLineValues = 1
+        valueCellSelect = cell
+      }
     }
     if (inLineValues < 3) return 0
     if (valueCellSelect === 'X') return 1

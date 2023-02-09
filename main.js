@@ -1,25 +1,44 @@
-import Bot from './models/Bot'
-import Triki from './models/Triki'
-import { createLayout } from './rendersApp'
+import Game from './models/Game'
+import { createLayout, renderWinner } from './rendersApp'
 import './style.css'
 
 const gridDefault = 3
-let turnActive = 1
+const turnActive = 1
+
 const _ = className => document.querySelectorAll(className)
-const $ = id => document.getElementById(id)
+const $ = id => document.querySelector(id)
+const winnerDOM = $('#winner')
 
 const startGame = () => {
-  const triki = new Triki(gridDefault)
-  const bot = new Bot(gridDefault)
-  return { triki, bot }
+  const game = new Game(gridDefault)
+  const triki = game.triki.gameSpace
+  return { triki, game }
 }
-
-const 
 
 const prepateLayout = () => {
-  const { triki, bot } = startGame()
-  const layout = triki.gameSpace.map(cell => createLayout(cell)).flat().join('')
-  $('app').innerHTML = layout
+  const { triki, game } = startGame()
+  const trikiCells = triki.flat()
+  const layout = createLayout(trikiCells, gridDefault).join('')
+  $('#app').innerHTML = layout
+  addEventToLayout(game)
 }
 
-$('startGame').addEventListener('click', prepateLayout)
+/**
+   * @param {Game} game
+  */
+const addEventToLayout = (game) => {
+  _('.space-game').forEach((divGame) => {
+    divGame.addEventListener('click', () => {
+      const [x, y] = divGame.dataset.positionGrid.split(', ')
+      game.generateMoveTurn(x, y)
+      renderWinner(game.gameEnd)
+    })
+  })
+}
+
+$('#restartGame').addEventListener('click', () => {
+  $('#winner').classList.remove('view')
+  prepateLayout()
+})
+
+prepateLayout()

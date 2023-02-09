@@ -1,20 +1,19 @@
+import { renderPick } from '../rendersApp'
 import Bot from './Bot'
 import Person from './Person'
 import Triki from './Triki'
 
 class Game {
   turn = 1
-  gameEnd = false
+  gameEnd = ''
 
   /**
    *
-   * @param {Triki} triki
-   * @param {Bot} bot
-   * @param {Person} person
+   * @param {Number} grid
    */
   constructor (grid) {
     this.triki = new Triki(grid)
-    this.bot = new Bot(this.triki, grid)
+    this.bot = new Bot(grid, this.triki)
     this.person = new Person(this.triki)
   }
 
@@ -22,18 +21,16 @@ class Game {
     if (this.gameEnd) return
     const resultPerson = this.person.generateMakeMove(positionX, positionY)
     if (!resultPerson) return
+    renderPick(positionX, positionY, this.person.defaultValue)
     this.gameFinished(resultPerson)
     const resultBot = this.bot.generateTurn(this.gameEnd)
-    this.gameFinished(resultBot)
+    if (!this.gameEnd) this.gameFinished(resultBot)
   }
 
   gameFinished (condition) {
     if (condition !== 'Continue') {
-      this.gameEnd = true
-      return true
+      this.gameEnd = condition
     }
-
-    return false
   }
 }
 

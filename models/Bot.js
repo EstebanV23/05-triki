@@ -1,3 +1,4 @@
+import { renderPick } from '../rendersApp'
 import Triki from './Triki'
 
 class Bot {
@@ -19,7 +20,7 @@ class Bot {
    * @param {Number} positionY
    * @returns {boolean || string}
   */
-  generateMakeMove (positionX, positionY) {
+  makeMove (positionX, positionY) {
     const move = this.triki.insertValueCell(positionX, positionY, this.defaultValue)
     return move
   }
@@ -36,11 +37,13 @@ class Bot {
   generateTurn (gameEnd) {
     if (gameEnd) return
     let makeMove
+    let positionX, positionY
     do {
-      const { positionX, positionY } = this.generatePositions()
-      makeMove = this.generateMakeMove(positionX, positionY, this.triki)
+      positionX = this.generatePositions().positionX
+      positionY = this.generatePositions().positionY
+      makeMove = this.makeMove(positionX, positionY)
     } while (!makeMove)
-
+    renderPick(positionX, positionY, this.defaultValue)
     return makeMove
   }
 }

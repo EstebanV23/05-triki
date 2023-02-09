@@ -3,11 +3,9 @@ import { createLayout, renderWinner } from './rendersApp'
 import './style.css'
 
 const gridDefault = 3
-const turnActive = 1
 
 const _ = className => document.querySelectorAll(className)
 const $ = id => document.querySelector(id)
-const winnerDOM = $('#winner')
 
 const startGame = () => {
   const game = new Game(gridDefault)
